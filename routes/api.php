@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\CreateChildTaskController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,4 +17,9 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
+});
+Route::prefix('create')->name('create.')->group(function(){
+    Route::prefix('task')->name('task.')->group(function(){
+        Route::post('child', CreateChildTaskController::class)->name('child');
+    });
 });
