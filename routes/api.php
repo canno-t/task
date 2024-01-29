@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CreteUserController;
+use App\Http\Controllers\LoginController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,4 +22,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::prefix('user')->name('user.')->group(function(){
     Route::post('create', CreteUserController::class)->name('create');
+    Route::post('login', [LoginController::class, 'login'])->name('login');
+    Route::post('testauth', function (Request $request){
+        return true;
+    })->middleware('auth:sanctum')->name('test');
 });

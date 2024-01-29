@@ -39,6 +39,17 @@ class User extends Authenticatable
     public function getAssignment(){
         return $this->hasMany(Assignments::class, 'user_id', 'id');
     }
+
+    public function getRelatedToken(){
+        return $this->hasOne(personal_access_tokens::class, 'tokenable_id', 'id');
+    }
+
+    public function getUserToken(){
+        if($this->tokens->first()){
+            $this->tokens()->delete();
+        }
+        return $this->createToken('login-token')->plainTextToken;
+    }
     /**
      * The attributes that should be hidden for serialization.
      *
