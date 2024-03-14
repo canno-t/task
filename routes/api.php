@@ -6,6 +6,7 @@ use App\Http\Controllers\CreteUserController;
 use App\Http\Controllers\LoginController;
 use \App\Http\Controllers\CreateTaskController;
 use \App\Http\Middleware\TestAuth;
+use App\Http\Controllers\DeleteTaskController;
 
 /*
 |--------------------------------------------------------------------------
@@ -33,4 +34,5 @@ Route::prefix('user')->name('user.')->group(function(){
 Route::prefix('task')->name('task.')
     ->middleware(TestAuth::class)->group(function (){
     Route::post('create', CreateTaskController::class)->name('create');
+    Route::post('delete', DeleteTaskController::class)->name('delete');
 });
