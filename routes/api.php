@@ -4,6 +4,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CreteUserController;
 use App\Http\Controllers\LoginController;
+use \App\Http\Controllers\CreateTaskController;
+use \App\Http\Middleware\TestAuth;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,4 +28,9 @@ Route::prefix('user')->name('user.')->group(function(){
     Route::post('testauth', function (Request $request){
         return true;
     })->middleware('auth:sanctum')->name('test');
+});
+
+Route::prefix('task')->name('task.')
+    ->middleware(TestAuth::class)->group(function (){
+    Route::post('create', CreateTaskController::class)->name('create');
 });
