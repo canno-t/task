@@ -4,6 +4,7 @@ namespace App\Entities\Task;
 
 use App\Models\Assignments;
 use App\Models\Task;
+use Illuminate\Support\Str;
 
 class SubTaskEntity implements Taskentitiy
 {
@@ -30,7 +31,8 @@ class SubTaskEntity implements Taskentitiy
             'author_id'=>$this->author_id,
             'finish_date'=>$this->finish_date,
             'task_type_id'=>self::$tasktype_id,
-            'dominant_task'=>$this->dominant_task_id
+            'dominant_task_id'=>$this->dominant_task_id,
+            'uuid'=>Str::uuid()
         ];
     }
 

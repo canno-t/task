@@ -2,6 +2,8 @@
 
 namespace App\Entities\Task;
 
+use \Illuminate\Support\Str;
+
 class MainTaskEntity implements Taskentitiy
 {
     private static $tasktype_id = 2;//zamienic na pobieranie z bazy??
@@ -30,7 +32,8 @@ class MainTaskEntity implements Taskentitiy
             'author_id'=>$this->author_id,
             'finish_date'=>$this->finish_date,
             'task_type_id'=>self::$tasktype_id,
-            'users'=>$this->users
+            'users'=>$this->users,
+            'uuid'=>Str::uuid()
         ];
     }
 
