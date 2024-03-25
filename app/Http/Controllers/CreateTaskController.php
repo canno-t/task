@@ -27,7 +27,7 @@ class CreateTaskController extends Controller
      */
     public function __invoke(CreateTaskRequest $request)
     {
-        $task = $this->taskEntity->fromArray($request->validated());
+        $task = $this->taskEntity->fromArray(array_merge($request->validated(), ['author_id'=>$request->user()['id']]));
         DB::beginTransaction();
         if(
             $this->saveNewTaskService->save($task) &&

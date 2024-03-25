@@ -33,6 +33,6 @@ Route::prefix('user')->name('user.')->group(function(){
 
 Route::prefix('task')->name('task.')
     ->middleware(TestAuth::class)->group(function (){
-    Route::post('create', CreateTaskController::class)->name('create');
+    Route::post('create', CreateTaskController::class)->middleware('auth:sanctum')->name('create');
     Route::post('/{uuid}/delete', DeleteTaskController::class)->middleware('auth:sanctum')->name('delete');
 });
