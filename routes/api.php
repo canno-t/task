@@ -7,6 +7,7 @@ use App\Http\Controllers\LoginController;
 use \App\Http\Controllers\CreateTaskController;
 use \App\Http\Middleware\TestAuth;
 use \App\Http\Controllers\DeleteTaskController;
+use \App\Http\Controllers\UpdateTaskController;
 
 /*
 |--------------------------------------------------------------------------
@@ -33,6 +34,11 @@ Route::prefix('user')->name('user.')->group(function(){
 
 Route::prefix('task')->name('task.')
     ->middleware(TestAuth::class)->group(function (){
-    Route::post('create', CreateTaskController::class)->middleware('auth:sanctum')->name('create');
-    Route::post('/{uuid}/delete', DeleteTaskController::class)->middleware('auth:sanctum')->name('delete');
+    Route::middleware('auth:sanctum')->group(function (){
+        Route::post('create', CreateTaskController::class)->name('create');
+        Route::prefix('{uuid}')->group(function (){
+            Route::post('/delete', DeleteTaskController::class)->name('delete');
+            Route::post('/update', UpdateTaskController::class)->name('update');
+        });
+    });
 });
