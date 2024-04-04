@@ -11,6 +11,8 @@ class SubTaskEntity implements Taskentitiy
     private static $tasktype_id = 1;//zamienic na pobieranie z bazy??
 
     private $id;
+
+    private array $users;
     public function __construct(private $name, private $description, private $author_id, private $finish_date, private $dominant_task_id){
     }
 
@@ -48,6 +50,13 @@ class SubTaskEntity implements Taskentitiy
 
     public function getUsers()
     {
-        return Assignments::where('task_id', $this->dominant_task_id)->get()->pluck('user_id');
+        if(empty($this->users)){
+            return Assignments::where('task_id', $this->dominant_task_id)->get()->pluck('user_id');
+        }
+        return $this->users;
+    }
+
+    public function setUsers(array $users){
+        $this->users = $users;
     }
 }

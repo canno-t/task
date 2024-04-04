@@ -6,7 +6,7 @@ use App\Exceptions\HttpValidationFailException;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 
-class CreateTaskRequest extends FormRequest
+class AssignUsersRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,14 +24,17 @@ class CreateTaskRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name'=>'string|required',
-            'description'=>'string|required',
-            'finish_date'=>'required|date',
-            'tasktype'=>'required|exists:task_types,id',
-            'dominant_task_id'=>'required_if:tasktype,==,2',
-            'assigned_users'=>'nullable|array',
-            'assigned_users.*'=>'exists:users,id'
+            'assigned_users.*'=>'exists:users,id',
+            'uuid'=>'exists:tasks'
         ];
+    }
+
+    public function validateResolved()
+    {
+        $this->merge([
+            'uuid' => $this->route('uuid'),
+        ]);
+        parent::validateResolved();
     }
 
     public function failedValidation(Validator $validator)

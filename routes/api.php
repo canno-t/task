@@ -8,6 +8,7 @@ use \App\Http\Controllers\CreateTaskController;
 use \App\Http\Middleware\TestAuth;
 use \App\Http\Controllers\DeleteTaskController;
 use \App\Http\Controllers\UpdateTaskController;
+use \App\Http\Controllers\AssignUsersController;
 
 /*
 |--------------------------------------------------------------------------
@@ -39,6 +40,7 @@ Route::prefix('task')->name('task.')
         Route::prefix('{uuid}')->group(function (){
             Route::post('/delete', DeleteTaskController::class)->name('delete');
             Route::post('/update', UpdateTaskController::class)->name('update');
+            Route::post('/assign', AssignUsersController::class)->name('assign');
         });
     });
 });

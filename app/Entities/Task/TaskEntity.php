@@ -12,10 +12,13 @@ class TaskEntity
 
     public function fromExistingTask(Task $task){
         if($task->task_type_id === '1'){
-            return array_values($task->only('name', '$description', 'author_id', 'finish_date'));
-//            return MainTaskEntity::fromArray()
+            $taskentity = MainTaskEntity::fromArray($task->only('name', '$description', 'author_id', 'finish_date'));
         }
-        return array_values($task->only('name', 'description', 'author_id', 'finish_date', 'dominant_task_id'));
+        else {
+            $taskentity = SubTaskEntity::fromArray($task->only('name', 'description', 'author_id', 'finish_date', 'dominant_task_id'));
+        }
+        $taskentity->setId($task->id);
+        return $taskentity;
     }
 
 }
