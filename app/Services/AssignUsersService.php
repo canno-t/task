@@ -11,10 +11,15 @@ class AssignUsersService
     public function assginToTask(Taskentitiy $task){
         try {
             foreach ($task->getUsers() as $user) {
-                Assignments::create([
+                $assignement = [
                     'user_id'=>$user,
                     'task_id'=>$task->getId()
-                ]);
+                ];
+                if(!(Assignments::where(collect($assignement)->map(function ($value, $key){
+                    return [$value, '=', $key];
+                })->toArray())->exists())){
+                    Assignments::create($assignement);
+                }
             }
         } catch (\Exception $e) {
             DB::rollBack();
