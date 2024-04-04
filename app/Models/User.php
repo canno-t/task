@@ -7,13 +7,14 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Database\Query\Builder;
 
 /**
  * @property $email
  * @property $name
  * @property $password
  *
- * @mixin /Illuminate/Database/Eloquent/Builder
+ * @mixin Builder
  */
 
 class User extends Authenticatable
@@ -37,6 +38,17 @@ class User extends Authenticatable
 
     public function getAssignment(){
         return $this->hasMany(Assignments::class, 'user_id', 'id');
+    }
+
+    public function getRelatedToken(){
+        return $this->hasOne(personal_access_tokens::class, 'tokenable_id', 'id');
+    }
+
+    public function getUserToken(){
+        if($this->tokens->first()){
+            $this->tokens()->delete();
+        }
+        return $this->createToken('login-token')->plainTextToken;
     }
     /**
      * The attributes that should be hidden for serialization.

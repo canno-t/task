@@ -8,6 +8,18 @@ class ResponseBuilder implements AppResponse
     protected $message;
 
     private array $params;
+
+    public function __construct($message, $status)
+    {
+        $this->message = $message;
+        $this->status = $status;
+    }
+
+    public static function setResponse($status, $message=null){
+        $status = ($status === false) ? 'fail' : 'success';
+        $message  = $message?:static::$succesResponse;
+        return new self($status, $message);
+    }
     public function returnResponse()
     {
         return array_merge([
