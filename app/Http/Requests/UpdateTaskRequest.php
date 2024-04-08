@@ -24,7 +24,7 @@ class UpdateTaskRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'finish_date'=>'nullable|date',
+            'finish_date'=>'nullable|date|after:today',
             'description'=>'nullable|string',
             'name'=>'nullable|string',
             'uuid'=>'exists:tasks'

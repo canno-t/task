@@ -26,7 +26,7 @@ class CreateTaskRequest extends FormRequest
         return [
             'name'=>'string|required',
             'description'=>'string|required',
-            'finish_date'=>'required|date',
+            'finish_date'=>'required|date|after:today',
             'tasktype'=>'required|exists:task_types,id',
             'dominant_task_id'=>'required_if:tasktype,==,2',
             'assigned_users'=>'nullable|array',
