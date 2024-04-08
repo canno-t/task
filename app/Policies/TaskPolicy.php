@@ -32,12 +32,26 @@ class TaskPolicy
         //
     }
 
+    public function assignUsers(User $user, Task $task):bool{
+        foreach ($user->getAuthorsTask->all() as $item){
+            if($item['id'] == $task['id']){
+                return true;
+            }
+        }
+        return false;
+    }
+
     /**
      * Determine whether the user can update the model.
      */
     public function update(User $user, Task $task): bool
     {
-        //
+        foreach ($user->getAuthorsTask->all() as $item){
+            if($item['id'] == $task['id']){
+                return true;
+            }
+        }
+        return false;
     }
 
     /**

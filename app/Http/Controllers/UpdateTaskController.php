@@ -22,12 +22,14 @@ class UpdateTaskController extends Controller
      */
     public function __invoke(UpdateTaskRequest $request)
     {
-        $request = $request->validated();
-        $task = Task::where('uuid', $request['uuid'])->first();
-        unset($request['uuid']);
-        return ($this->updateTaskService->update($task, $request)===true)
-            ? response()->json(TaskResponse::setResponse(true, 'Task Updated Successfully')->returnResponse())
-            : response()->json(TaskResponse::setResponse(false, 'Unable to Update Task')->returnResponse());
-
+        $validated = $request->validated();
+        $task = Task::where('uuid', $validated['uuid'])->first();
+        unset($validated['uuid']);
+        if ($request->user()->can('update', $task)) {
+            return ($this->updateTaskService->update($task, $validated) === true)
+                ? response()->json(TaskResponse::setResponse(true, 'Task Updated Successfully')->returnResponse())
+                : response()->json(TaskResponse::setResponse(false, 'Unable to Update Task')->returnResponse());
+        }
+        return 'nie';
     }
 }
