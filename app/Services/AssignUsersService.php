@@ -3,12 +3,13 @@
 namespace App\Services;
 
 use App\Entities\Task\Taskentitiy;
+use App\Exceptions\DatabaseException;
 use App\Models\Assignments;
 use Illuminate\Support\Facades\DB;
 
 class AssignUsersService
 {
-    public function assginToTask(Taskentitiy $task){
+    public function assginToTask(Taskentitiy $task):void{
         try {
             foreach ($task->getUsers() as $user) {
                 $assignement = [
@@ -23,8 +24,7 @@ class AssignUsersService
             }
         } catch (\Exception $e) {
             DB::rollBack();
-            return false;
+            throw new DatabaseException($e->getMessage());
         }
-        return true;
     }
 }

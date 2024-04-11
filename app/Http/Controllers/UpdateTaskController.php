@@ -26,10 +26,8 @@ class UpdateTaskController extends Controller
         $task = Task::where('uuid', $validated['uuid'])->first();
         unset($validated['uuid']);
         if ($request->user()->can('update', $task)) {
-            return ($this->updateTaskService->update($task, $validated) === true)
-                ? response()->json(TaskResponse::setResponse(true, 'Task Updated Successfully')->returnResponse())
-                : response()->json(TaskResponse::setResponse(false, 'Unable to Update Task')->returnResponse());
+            $this->updateTaskService->update($task, $validated);
         }
-        return 'nie';
+        return response()->json(TaskResponse::setResponse(false, 'You are not the author of this task')->returnResponse());
     }
 }
