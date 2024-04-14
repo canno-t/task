@@ -37,4 +37,8 @@ class Task extends Model
     public function getTaskPriority(){
         return $this->hasOne(TaskPriopity::class, 'id', 'name');
     }
+
+    public function getAssignedUsers(){
+        return $this->hasMany(Assignments::class, 'task_id', 'id');
+    }
 }

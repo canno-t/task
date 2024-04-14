@@ -17,11 +17,13 @@ class TaskFactory extends Factory
     public function definition(): array
     {
         return [
-            'author_id',
-            'task_type_id',
-            'finish_date',
-            'task_priority_id',
-            'dominant_task_id'
+            'name'=>$this->faker->name(),
+            'description'=>$this->faker->sentence,
+            'author_id'=>'',
+            'task_type_id'=>'',
+            'finish_date'=>$this->faker->dateTimeBetween('now', '+30years')->format('Y-m-d'),
+            'dominant_task_id'=>null,
+            'uuid'=>$this->faker->uuid
         ];
     }
 }

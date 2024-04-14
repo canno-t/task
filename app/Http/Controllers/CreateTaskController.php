@@ -29,16 +29,9 @@ class CreateTaskController extends Controller
     {
         $task = $this->taskEntity->fromArray(array_merge($request->validated(), ['author_id'=>$request->user()['id']]));
         DB::beginTransaction();
-        if(
-            $this->saveNewTaskService->save($task) &&
-            $this->assignUsersService->assginToTask($task)
-        ){
-            DB::commit();
-            return \response()->json(TaskResponse::setResponse(true, )->addParam('task_id', $task->getId())->returnResponse());
-        }
-        else{
-            return \response()->json(TaskResponse::setResponse(false, 'Unsuccessful attempt to create new task, try again later.')->returnResponse());
-        }
-
+        $this->saveNewTaskService->save($task);
+        $this->assignUsersService->assginToTask($task);
+        DB::commit();
+        return \response()->json(TaskResponse::setResponse(true)->addParam('task_id', $task->getId())->returnResponse());
     }
 }
