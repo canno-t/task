@@ -2,6 +2,8 @@
 
 namespace App\Http\Requests;
 
+use App\Exceptions\HttpValidationFailException;
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 
 class DeleteTaskRequest extends FormRequest
@@ -24,5 +26,18 @@ class DeleteTaskRequest extends FormRequest
         return [
             'uuid'=>'exists:tasks'
         ];
+    }
+
+    public function validateResolved()
+    {
+        $this->merge([
+            'uuid' => $this->route('uuid'),
+        ]);
+        parent::validateResolved();
+    }
+
+    public function failedValidation(Validator $validator)
+    {
+        throw new HttpValidationFailException($validator->errors()->first());
     }
 }

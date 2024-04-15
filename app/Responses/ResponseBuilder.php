@@ -16,7 +16,7 @@ class ResponseBuilder implements AppResponse
     }
 
     public static function setResponse($status, $message=null){
-        $status = ($status === false) ? 'fail' : 'success';
+        $status = ($status === false) ? 'error' : 'success';
         $message  = $message?:static::$succesResponse;
         return new self($message, $status);
     }
