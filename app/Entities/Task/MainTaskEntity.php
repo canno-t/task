@@ -51,4 +51,8 @@ class MainTaskEntity implements Taskentitiy
     {
         return $this->users;
     }
+
+    public function setUsers($user){
+        $this->users = $user;
+    }
 }

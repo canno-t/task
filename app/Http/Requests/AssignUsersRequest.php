@@ -24,8 +24,24 @@ class AssignUsersRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'assigned_users'=>'array|nullable|max:10',
             'assigned_users.*'=>'exists:users,id',
             'uuid'=>'exists:tasks'
+        ];
+    }
+
+    public function attributes()
+    {
+        for ($i=0;$i<10;$i++){
+            $attributes['assigned_users.'.$i] = 'User'.$i;
+        }
+        return $attributes;
+    }
+
+    public function messages()
+    {
+        return [
+            'assigned_users.*.exists'=>':attribute does not exist'
         ];
     }
 

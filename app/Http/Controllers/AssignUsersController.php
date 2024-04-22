@@ -26,7 +26,7 @@ class AssignUsersController extends Controller
     public function __invoke(AssignUsersRequest $request)
     {
         $validated = $request->validated();
-        $task = Task::where('uuid', $validated['uuid'])->first() ?? abort(404);
+        $task = Task::where('uuid', $validated['uuid'])->first();
         unset($validated['uuid']);
         DB::beginTransaction();
         $taskentity = $this->taskEntity->fromExistingTask($task);
@@ -34,8 +34,8 @@ class AssignUsersController extends Controller
         if($request->user()->can('assignUsers', $task)) {
             $this->assignUsersService->assginToTask($taskentity);
             DB::commit();
-            return response()->json(TaskResponse::setResponse('true', 'Users Assigned Successfully')->returnResponse());
+            return response()->json(TaskResponse::setResponse('true', 'Users assigned successfully')->returnResponse());
         }
-        return response()->json(TaskResponse::setResponse(false, 'unable to assign users, try again later')->returnResponse());
+        return response()->json(TaskResponse::setResponse(false, 'You are not an author of this task')->returnResponse());
     }
 }
