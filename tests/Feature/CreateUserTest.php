@@ -85,7 +85,7 @@ class CreateUserTest extends TestCase
 
         $response->assertStatus(200)->assertJson([
             'message'=>"Value '".$user->email."' is currently used, try something else",
-            'status'=>'fail',
+            'status'=>'error',
         ]);
     }
 //    public function __destruct(){

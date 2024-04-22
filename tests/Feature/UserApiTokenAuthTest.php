@@ -99,7 +99,7 @@ class UserApiTokenAuthTest extends TestCase
         $this->post(route('user.login'), $request)
             ->assertStatus(200)
             ->assertJson([
-                'status'=>'fail',
+                'status'=>'error',
                 'message'=>'user credentials do not mach'
             ]);
     }
